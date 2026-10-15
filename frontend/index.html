@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="RE:VIVE — Healthcare Recovery Management Platform" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0b0c0c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8f7f5" media="(prefers-color-scheme: light)" />
+    <title>RE:VIVE — Recovery Management Platform</title>
+
+    <!-- Apply the saved theme before the CSS loads, so the page never flashes the wrong one. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('revive_theme');
+                if (t === 'light' || t === 'dark') {
+                    document.documentElement.setAttribute('data-theme', t);
+                }
+            } catch (e) {
+                /* storage blocked — fall through to prefers-color-scheme */
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⟡</text></svg>" />
+</head>
+<body>
+    <div id="app"></div>
+
+    <!-- Scripts (order matters) -->
+    <script src="js/api.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/recovery.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/pages/admin/dashboard.js"></script>
+    <script src="js/pages/admin/hospitals.js"></script>
+    <script src="js/pages/admin/hospital-admins.js"></script>
+    <script src="js/pages/alerts.js"></script>
+    <script src="js/pages/audit.js"></script>
+    <script src="js/pages/hospital/dashboard.js"></script>
+    <script src="js/pages/hospital/users.js"></script>
+    <script src="js/pages/hospital/assignments.js"></script>
+    <script src="js/pages/doctor/dashboard.js"></script>
+    <script src="js/pages/doctor/patients.js"></script>
+    <script src="js/pages/doctor/appointments.js"></script>
+    <script src="js/pages/doctor/analytics.js"></script>
+    <script src="js/pages/patient/dashboard.js"></script>
+    <script src="js/pages/patient/checkin.js"></script>
+    <script src="js/pages/patient/progress.js"></script>
+    <script src="js/pages/patient/twin.js"></script>
+    <script src="js/pages/patient/appointments.js"></script>
+    <script src="js/pages/patient/profile.js"></script>
+    <script src="js/pages/guardian/dashboard.js"></script>
+    <script src="js/pages/guardian/patient.js"></script>
+    <script src="js/pages/guardian/appointments.js"></script>
+    <script src="js/router.js"></script>
+</body>
+</html>

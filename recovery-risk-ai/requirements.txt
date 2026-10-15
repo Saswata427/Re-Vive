@@ -1,0 +1,16 @@
+# Supported Python: 3.12, 3.13, 3.14 (prebuilt wheels for all of these).
+# Exact versions: model/recovery_risk_model.joblib is a pickled scikit-learn
+# pipeline around an XGBoost model, and those load reliably only with the
+# versions that wrote them. Bump these together and retrain if you upgrade.
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pymongo==4.18.1
+python-dotenv==1.2.3
+pandas==3.0.5
+numpy==2.5.3
+scikit-learn==1.9.1
+scipy==1.18.1
+xgboost==3.4.1
+shap==0.52.0
+joblib==1.6.0
+pydantic==2.13.5

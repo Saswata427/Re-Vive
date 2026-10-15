@@ -1,0 +1,513 @@
+/* RE:VIVE base: tokens, reset and type. Dark is the default; keep the two light blocks identical. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── CSS Reset ──────────────────────────────────────────── */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* The hidden attribute must win over any component's display rule. */
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ── Design Tokens — DARK (default) ─────────────────────── */
+
+:root {
+    color-scheme: dark;
+
+    /* Background */
+    --bg-primary: #0b0c0c;
+    --bg-secondary: #111312;
+    --bg-gradient: radial-gradient(circle at 82% 0%, rgba(181, 31, 58, 0.11), transparent 25%),
+                   linear-gradient(145deg, #080909 0%, #111312 55%, #0b0c0c 100%);
+
+    /* Surfaces — the ladder used for nested panels, rows and wells */
+    --surface-1: #151817;
+    --surface-2: #1b1e1c;
+    --surface-3: #222523;
+    --hairline: #303331;
+    --hairline-strong: #444744;
+    --overlay: rgba(0, 0, 0, 0.6);
+    --overlay-soft: rgba(0, 0, 0, 0.3);
+
+    /* Cards: glossy charcoal */
+    --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025) 62%, rgba(224, 90, 109, 0.035));
+    --glass-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.035) 62%, rgba(224, 90, 109, 0.05));
+    --glass-bg-active: #202321;
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --glass-border-hover: rgba(255, 255, 255, 0.17);
+    --glass-blur: 0px;
+    --glass-radius: 14px;
+    --glass-radius-sm: 9px;
+    --glass-radius-lg: 18px;
+    --glass-radius-xl: 22px;
+    --glass-shadow: 0 5px 18px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    --glass-shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    --glass-inner-glow: inset 0 0 0 transparent;
+
+    /* Accent — clinical red, lifted for a dark ground */
+    --accent-primary: #e05a6d;
+    --accent-primary-rgb: 224, 90, 109;
+    --accent-primary-text: #f09aa6;
+    --accent-primary-hover: #f3a5b0;
+    --accent-primary-soft: rgba(224, 90, 109, 0.13);
+    --accent-secondary: #72ad8d;
+    --accent-secondary-rgb: 114, 173, 141;
+    --accent-danger: #df727a;
+    --accent-danger-rgb: 223, 114, 122;
+    --accent-danger-soft: #ed8a91;
+    --accent-warning: #d5ab61;
+    --accent-warning-rgb: 213, 171, 97;
+    --accent-warning-alt: #e0bb76;
+    --accent-orange: #d98a57;
+    --accent-success: #72ad8d;
+    --accent-success-rgb: 114, 173, 141;
+    --accent-success-soft: #8bc2a4;
+    --accent-info: #89aebe;
+    --accent-info-rgb: 137, 174, 190;
+
+    /* Role Colors */
+    --role-admin: #b59bdc;
+    --role-hospital: #8fb0c6;
+    --role-doctor: #78ba98;
+    --role-patient: #72bbb3;
+    --role-guardian: #dbb978;
+
+    /* Check-in severity ramp — craving / stress bands, low to extreme */
+    --level-low: #4ade80;
+    --level-mid: #fbbf24;
+    --level-high: #f97316;
+    --level-extreme: #ef4444;
+    --accent-streak: #ff8c00;
+    --accent-streak-rgb: 255, 140, 0;
+
+    /* Text */
+    --text-primary: #f1f0ed;
+    --text-secondary: #b9b7b2;
+    --text-muted: #8e8d89;
+    --text-faint: #656762;
+    --text-inverse: #090a09;
+    --text-on-accent: #ffffff;
+
+    /* App chrome — navbar and dropdown panels */
+    --chrome-navbar: rgba(14, 16, 16, 0.97);
+    --chrome-panel: #151817;
+
+    /* Composed surfaces that differ by theme */
+    --hero-bg: radial-gradient(circle at 68% 30%, rgba(224, 90, 109, 0.10), transparent 27%),
+               linear-gradient(110deg, #111312 0%, #161716 60%, #251719 100%);
+    --hero-quote-bg: rgba(255, 255, 255, 0.035);
+    --rail-bg: linear-gradient(150deg, #8f1d32, #53121d);
+    --rail-shadow: 0 9px 28px rgba(0, 0, 0, 0.32);
+    --rail-item-bg: #1d201e;
+    --rail-item-fg: #f1f0ed;
+    --schedule-bg: rgba(20, 22, 21, 0.92);
+    --welcome-bg: radial-gradient(circle at 12% 30%, rgba(224, 90, 109, 0.10), transparent 30%),
+                  radial-gradient(circle at 92% 70%, rgba(224, 90, 109, 0.08), transparent 30%),
+                  linear-gradient(135deg, #101216 0%, #15181d 50%, #17131a 100%);
+    --welcome-card-bg: rgba(28, 31, 36, 0.94);
+    --welcome-cred-bg: #20242b;
+
+    /* Select arrow: a data: URI can't use CSS variables, so each theme sets its own. */
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b9b7b2' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    --scrollbar-thumb: #424542;
+    --scrollbar-thumb-hover: #5a5e5a;
+
+    /* Typography Scale */
+    --text-xs: 0.75rem;
+    --text-sm: 0.8125rem;
+    --text-base: 0.9375rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.3125rem;
+    --text-2xl: 1.625rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Layout */
+    --navbar-height: 72px;
+    --public-header-height: 72px;
+    --page-max: 1500px;
+}
+
+/* Phones: the signed-in header gets a second row; the public one stays one row. */
+@media (max-width: 768px) {
+    :root { --public-header-height: 60px; }
+}
+
+
+/* ── Design Tokens — LIGHT ──────────────────────────────── */
+/* Status colours are darkened here so they keep contrast on white. */
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+        color-scheme: light;
+
+        --bg-primary: #f8f7f5;
+        --bg-secondary: #ffffff;
+        --bg-gradient: radial-gradient(circle at 88% 8%, rgba(181, 31, 58, 0.07), transparent 28%),
+                       linear-gradient(135deg, #ffffff 0%, #fffafa 56%, #f8ecef 100%);
+
+        --surface-1: #f5f3f2;
+        --surface-2: #faf9f8;
+        --surface-3: #ffffff;
+        --hairline: #e4dedc;
+        --hairline-strong: #d3c8c6;
+        --overlay: rgba(23, 25, 35, 0.42);
+        --overlay-soft: rgba(23, 25, 35, 0.16);
+
+        --glass-bg: rgba(255, 255, 255, 0.96);
+        --glass-bg-hover: #ffffff;
+        --glass-bg-active: #fff5f5;
+        --glass-border: #e5dfe0;
+        --glass-border-hover: #d5c5c8;
+        --glass-shadow: 0 5px 20px rgba(67, 32, 40, 0.07);
+        --glass-shadow-lg: 0 12px 30px rgba(67, 32, 40, 0.11);
+
+        --accent-primary: #b51f3a;
+        --accent-primary-rgb: 181, 31, 58;
+        --accent-primary-text: #a71935;
+        --accent-primary-hover: #8f1730;
+        --accent-primary-soft: rgba(181, 31, 58, 0.10);
+        --accent-secondary: #39745a;
+        --accent-secondary-rgb: 57, 116, 90;
+        --accent-danger: #b42330;
+        --accent-danger-rgb: 180, 35, 48;
+        --accent-danger-soft: #a01d29;
+        --accent-warning: #9a6515;
+        --accent-warning-rgb: 154, 101, 21;
+        --accent-warning-alt: #7f510b;
+        --accent-orange: #b45d22;
+        --accent-success: #39745a;
+        --accent-success-rgb: 57, 116, 90;
+        --accent-success-soft: #2f674d;
+        --accent-info: #466f8d;
+        --accent-info-rgb: 70, 111, 141;
+
+        --role-admin: #72549d;
+        --role-hospital: #466f8d;
+        --role-doctor: #39745a;
+        --role-patient: #287d75;
+        --role-guardian: #9a6515;
+
+        --level-low: #15803d;
+        --level-mid: #b7791f;
+        --level-high: #c2570b;
+        --level-extreme: #c02626;
+        --accent-streak: #c2570b;
+        --accent-streak-rgb: 194, 87, 11;
+
+        --text-primary: #171923;
+        --text-secondary: #5f6470;
+        --text-muted: #7b7f89;
+        --text-faint: #aaa3a1;
+        --text-inverse: #ffffff;
+        --text-on-accent: #ffffff;
+
+        --chrome-navbar: rgba(255, 255, 255, 0.98);
+        --chrome-panel: #ffffff;
+
+        --hero-bg: radial-gradient(circle at 66% 32%, rgba(181, 31, 58, 0.10), transparent 28%),
+                   linear-gradient(100deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 248, 249, 0.92) 60%, rgba(250, 229, 233, 0.80) 100%);
+        --hero-quote-bg: rgba(255, 255, 255, 0.55);
+        --rail-bg: linear-gradient(150deg, #b51f3a 0%, #8f1730 100%);
+        --rail-shadow: 0 9px 25px rgba(143, 23, 48, 0.18);
+        --rail-item-bg: rgba(255, 255, 255, 0.95);
+        --rail-item-fg: #171923;
+        --schedule-bg: rgba(255, 255, 255, 0.92);
+        --welcome-bg: radial-gradient(circle at 12% 30%, rgba(181, 31, 58, 0.07), transparent 30%),
+                      radial-gradient(circle at 92% 70%, rgba(181, 31, 58, 0.05), transparent 30%),
+                      linear-gradient(135deg, #f5f8fb 0%, #ffffff 44%, #f8f1f4 100%);
+        --welcome-card-bg: #ffffff;
+        --welcome-cred-bg: #f1f5fb;
+
+        --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235f6470' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+        --scrollbar-thumb: #cfc8c6;
+        --scrollbar-thumb-hover: #aaa09d;
+    }
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+
+    --bg-primary: #f8f7f5;
+    --bg-secondary: #ffffff;
+    --bg-gradient: radial-gradient(circle at 88% 8%, rgba(181, 31, 58, 0.07), transparent 28%),
+                   linear-gradient(135deg, #ffffff 0%, #fffafa 56%, #f8ecef 100%);
+
+    --surface-1: #f5f3f2;
+    --surface-2: #faf9f8;
+    --surface-3: #ffffff;
+    --hairline: #e4dedc;
+    --hairline-strong: #d3c8c6;
+    --overlay: rgba(23, 25, 35, 0.42);
+    --overlay-soft: rgba(23, 25, 35, 0.16);
+
+    --glass-bg: rgba(255, 255, 255, 0.96);
+    --glass-bg-hover: #ffffff;
+    --glass-bg-active: #fff5f5;
+    --glass-border: #e5dfe0;
+    --glass-border-hover: #d5c5c8;
+    --glass-shadow: 0 5px 20px rgba(67, 32, 40, 0.07);
+    --glass-shadow-lg: 0 12px 30px rgba(67, 32, 40, 0.11);
+
+    --accent-primary: #b51f3a;
+    --accent-primary-rgb: 181, 31, 58;
+    --accent-primary-text: #a71935;
+    --accent-primary-hover: #8f1730;
+    --accent-primary-soft: rgba(181, 31, 58, 0.10);
+    --accent-secondary: #39745a;
+    --accent-secondary-rgb: 57, 116, 90;
+    --accent-danger: #b42330;
+    --accent-danger-rgb: 180, 35, 48;
+    --accent-danger-soft: #a01d29;
+    --accent-warning: #9a6515;
+    --accent-warning-rgb: 154, 101, 21;
+    --accent-warning-alt: #7f510b;
+    --accent-orange: #b45d22;
+    --accent-success: #39745a;
+    --accent-success-rgb: 57, 116, 90;
+    --accent-success-soft: #2f674d;
+    --accent-info: #466f8d;
+    --accent-info-rgb: 70, 111, 141;
+
+    --role-admin: #72549d;
+    --role-hospital: #466f8d;
+    --role-doctor: #39745a;
+    --role-patient: #287d75;
+    --role-guardian: #9a6515;
+
+    --level-low: #15803d;
+    --level-mid: #b7791f;
+    --level-high: #c2570b;
+    --level-extreme: #c02626;
+    --accent-streak: #c2570b;
+    --accent-streak-rgb: 194, 87, 11;
+
+    --text-primary: #171923;
+    --text-secondary: #5f6470;
+    --text-muted: #7b7f89;
+    --text-faint: #aaa3a1;
+    --text-inverse: #ffffff;
+    --text-on-accent: #ffffff;
+
+    --chrome-navbar: rgba(255, 255, 255, 0.98);
+    --chrome-panel: #ffffff;
+
+    --hero-bg: radial-gradient(circle at 66% 32%, rgba(181, 31, 58, 0.10), transparent 28%),
+               linear-gradient(100deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 248, 249, 0.92) 60%, rgba(250, 229, 233, 0.80) 100%);
+    --hero-quote-bg: rgba(255, 255, 255, 0.55);
+    --rail-bg: linear-gradient(150deg, #b51f3a 0%, #8f1730 100%);
+    --rail-shadow: 0 9px 25px rgba(143, 23, 48, 0.18);
+    --rail-item-bg: rgba(255, 255, 255, 0.95);
+    --rail-item-fg: #171923;
+    --schedule-bg: rgba(255, 255, 255, 0.92);
+    --welcome-bg: radial-gradient(circle at 12% 30%, rgba(181, 31, 58, 0.07), transparent 30%),
+                  radial-gradient(circle at 92% 70%, rgba(181, 31, 58, 0.05), transparent 30%),
+                  linear-gradient(135deg, #f5f8fb 0%, #ffffff 44%, #f8f1f4 100%);
+    --welcome-card-bg: #ffffff;
+    --welcome-cred-bg: #f1f5fb;
+
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235f6470' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+    --scrollbar-thumb: #cfc8c6;
+    --scrollbar-thumb-hover: #aaa09d;
+}
+
+/* Lets the switch force dark over a system-light preference. */
+:root[data-theme="dark"] { color-scheme: dark; }
+
+
+/* ── Background ─────────────────────────────────────────── */
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--bg-gradient);
+    z-index: -1;
+}
+
+
+/* ── Surfaces ───────────────────────────────────────────── */
+
+.glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--glass-radius);
+    box-shadow: var(--glass-shadow);
+    transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.glass:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+}
+
+.glass-solid {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--glass-radius);
+    box-shadow: var(--glass-shadow);
+}
+
+
+/* ── Typography ─────────────────────────────────────────── */
+
+h1 { font-size: var(--text-3xl); font-weight: 700; letter-spacing: -0.025em; line-height: 1.2; }
+h2 { font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; }
+h3 { font-size: var(--text-xl); font-weight: 600; line-height: 1.4; }
+h4 { font-size: var(--text-lg); font-weight: 500; line-height: 1.4; }
+
+/* A long unbroken name or email must wrap, not push the page sideways. */
+h1, h2, h3, h4 { overflow-wrap: anywhere; }
+
+.text-muted { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+.text-accent { color: var(--accent-primary-text); }
+
+
+/* ── Utility Classes ────────────────────────────────────── */
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+.w-full { width: 100%; }
+.text-center { text-align: center; }
+.relative { position: relative; }
+.overflow-hidden { overflow: hidden; }
+
+/* Wide content scrolls inside its own box, so the page never scrolls sideways. */
+.scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Visibility helpers driven by the shared breakpoint */
+@media (max-width: 768px) {
+    .hide-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+    .hide-desktop { display: none !important; }
+}
+
+
+/* ── Focus ──────────────────────────────────────────────── */
+
+:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+    border-radius: var(--glass-radius-sm);
+}
+
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+
+/* ── Page Transition ────────────────────────────────────── */
+
+.page-enter {
+    animation: pageEnter var(--transition-slow) ease-out;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
