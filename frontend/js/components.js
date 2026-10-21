@@ -83,7 +83,7 @@ function renderNavbar(role, activeId) {
 
     const brand = `
             <a href="${home}" onclick="return handleTopNavigation(event, '${home}')" class="brand-lockup" aria-label="RE:VIVE home">
-                <span class="brand-mark" aria-hidden="true">✦</span>
+                <span class="brand-mark" aria-hidden="true"><img src="assets/revive-ribbon-r-transparent.png" alt="" /></span>
                 <span class="brand-copy">
                     <strong>RE:VIVE</strong>
                     <small>Recover · Move · Live Better</small>
@@ -147,6 +147,7 @@ function renderNavbar(role, activeId) {
                 </div>
                 ${renderThemeToggle()}
                 ${renderNotificationBell()}
+                <button type="button" class="navbar-signout" onclick="logout()"><span aria-hidden="true">⇥</span> Sign Out</button>
                 <button type="button" class="navbar-user" onclick="logout()" aria-label="Sign out ${escapeHtml(name)}" title="Sign out">
                     <span class="navbar-avatar" aria-hidden="true">${escapeHtml(initials)}</span>
                     <span class="navbar-user-info">
@@ -637,3 +638,4 @@ function showToast(message, type = 'info', duration = 4000) {
         setTimeout(() => toast.remove(), 300);
     }, duration);
 }
+
